@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GrandStay Hotel Booking</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f5f7fa;
+            color: #333;
+        }
+
+        header {
+            background: #1f3c5b;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #162d44;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a, nav button {
+            color: white;
+            background: none;
+            border: none;
+            margin: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            text-decoration: none;
+        }
+
+        nav a:hover, nav button:hover {
+            color: #ffd166;
+        }
+
+        section {
+            padding: 40px 8%;
+        }
+
+        .hero {
+            background: linear-gradient(#0008, #0008),
+            url("https://images.unsplash.com/photo-1566073771259-6a8506099945")
+            center/cover;
+            color: white;
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .hero h1 {
+            font-size: 45px;
+        }
+
+        .search-box, .form-box {
+            background: white;
+            padding: 25px;
+            margin: 20px auto;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #0002;
+            max-width: 1000px;
+        }
+
+        input, select, textarea {
+            padding: 12px;
+            margin: 7px;
+            width: 220px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        textarea {
+            width: 90%;
+            height: 100px;
+        }
+
+        button, .btn {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 12px 18px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover, .btn:hover {
+            background: #d35400;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .card {
+            background: white;
+            width: 250px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #0002;
+            text-align: center;
+        }
+
+        .card img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .card h3 {
+            color: #1f3c5b;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            margin: 15px auto;
+            max-width: 900px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #0002;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1f3c5b;
+            color: white;
+        }
+
+        footer {
+            background: #162d44;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .message {
+            font-weight: bold;
+            color: green;
+        }
+
+        @media(max-width: 700px) {
+            .hero h1 {
+                font-size: 30px;
+            }
+
+            input, select {
+                width: 90%;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+            nav a, nav button {
+                display: inline-block;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <h1>🏨 GrandStay Hotel</h1>
+    <p>Book Your Perfect Stay Easily</p>
+</header>
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="#home">Home</a>
+    <a href="#rooms">Rooms</a>
+    <a href="#about">About</a>
+    <a href="#contact">Contact</a>
+    <a href="#faq">FAQ</a>
+    <button onclick="showBox('login')">Login</button>
+    <button onclick="showBox('register')">Register</button>
+    <button onclick="showBox('admin')">Admin</button>
+</nav>
+
+
+<!-- HOME -->
+<section id="home" class="hero">
+    <h1>Find Your Perfect Stay</h1>
+    <p>Comfortable Rooms | Best Prices | Easy Booking</p>
+
+    <div class="search-box">
+        <input id="destination" placeholder="Destination">
+        <input id="checkin" type="date">
+        <input id="checkout" type="date">
+        <select id="guests">
+            <option>1 Guest</option>
+            <option>2 Guests</option>
+            <option>3 Guests</option>
+            <option>4 Guests</option>
+        </select>
+
+        <button onclick="searchRooms()">Search Rooms</button>
+
+        <p id="searchResult"></p>
+    </div>
+</section>
+
+
+<!-- ROOMS -->
+<section id="rooms">
+    <h2>Our Room Types</h2>
+
+    <div class="cards">
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1611892440504-42a792e24d32">
+            <h3>Standard Room</h3>
+            <p>👤 2 Guests</p>
+            <p>Wi-Fi | AC | TV</p>
+            <h3>$80 / Night</h3>
+            <button onclick="bookRoom('Standard Room',80)">Book Now</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1590490360182-c33d57733427">
+            <h3>Deluxe Room</h3>
+            <p>👤 3 Guests</p>
+            <p>Wi-Fi | AC | TV | Breakfast</p>
+            <h3>$120 / Night</h3>
+            <button onclick="bookRoom('Deluxe Room',120)">Book Now</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1566665797739-1674de7a421a">
+            <h3>Family Room</h3>
+            <p>👤 4 Guests</p>
+            <p>Wi-Fi | AC | TV | Extra Bed</p>
+            <h3>$150 / Night</h3>
+            <button onclick="bookRoom('Family Room',150)">Book Now</button>
+        </div>
+
+        <div class="card">
+            <img src="https://images.unsplash.com/photo-1582719478250-c89cae4dc85b">
+            <h3>Suite Room</h3>
+            <p>👤 4 Guests</p>
+            <p>Wi-Fi | AC | TV | Living Area</p>
+            <h3>$200 / Night</h3>
+            <button onclick="bookRoom('Suite Room',200)">Book Now</button>
+        </div>
+
+    </div>
+</section>
+
+
+<!-- USER LOGIN -->
+<div id="login" class="box hidden">
+    <h2>User Login</h2>
+
+    <input id="loginEmail" type="email" placeholder="Email">
+    <input id="loginPassword" type="password" placeholder="Password">
+
+    <button onclick="login()">Login</button>
+
+    <p id="loginMessage"></p>
+</div>
+
+
+<!-- REGISTRATION -->
+<div id="register" class="box hidden">
+    <h2>Create Account</h2>
+
+    <input id="regName" placeholder="Full Name">
+    <input id="regEmail" type="email" placeholder="Email">
+    <input id="regPhone" placeholder="Phone">
+    <input id="regPassword" type="password" placeholder="Password">
+
+    <button onclick="register()">Register</button>
+
+    <p id="registerMessage"></p>
+</div>
+
+
+<!-- BOOKING -->
+<section id="booking">
+    <div class="box">
+        <h2>Book Your Room</h2>
+
+        <input id="customerName" placeholder="Full Name">
+        <input id="customerEmail" placeholder="Email">
+
+        <select id="roomType">
+            <option>Standard Room</option>
+            <option>Deluxe Room</option>
+            <option>Family Room</option>
+            <option>Suite Room</option>
+        </select>
+
+        <input id="bookCheckin" type="date">
+        <input id="bookCheckout" type="date">
+
+        <button onclick="confirmBooking()">Confirm Booking</button>
+
+        <p id="bookingMessage"></p>
+    </div>
+</section>
+
+
+<!-- USER DASHBOARD -->
+<section id="dashboard">
+    <div class="box">
+
+        <h2>👤 User Dashboard</h2>
+
+        <h3>My Profile</h3>
+
+        <p>Name: <span id="profileName">Guest</span></p>
+        <p>Email: <span id="profileEmail">guest@gmail.com</span></p>
+
+        <button onclick="editProfile()">Edit Profile</button>
+
+        <h3>My Booking History</h3>
+
+        <table>
+            <tr>
+                <th>Room</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Status</th>
+                <th>Action</th>
+            </tr>
+
+            <tbody id="bookingList">
+                <tr>
+                    <td>Deluxe Room</td>
+                    <td>25-07-2026</td>
+                    <td>28-07-2026</td>
+                    <td>Confirmed</td>
+                    <td>
+                        <button onclick="modifyBooking()">Modify</button>
+                        <button onclick="cancelBooking()">Cancel</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+</section>
+
+
+<!-- PAYMENT -->
+<section id="payment">
+    <div class="box">
+        <h2>💳 Secure Payment</h2>
+
+        <select>
+            <option>Credit / Debit Card</option>
+            <option>UPI</option>
+            <option>Net Banking</option>
+        </select>
+
+        <input placeholder="Card / Payment Number">
+
+        <button onclick="payment()">Pay Now</button>
+
+        <p id="paymentMessage"></p>
+    </div>
+</section>
+
+
+<!-- REVIEW -->
+<section id="review">
+    <div class="box">
+        <h2>⭐ Give Your Review</h2>
+
+        <select id="rating">
+            <option>★★★★★</option>
+            <option>★★★★☆</option>
+            <option>★★★☆☆</option>
+            <option>★★☆☆☆</option>
+            <option>★☆☆☆☆</option>
+        </select>
+
+        <br>
+
+        <textarea id="reviewText"
+        placeholder="Write your experience"></textarea>
+
+        <br>
+
+        <button onclick="submitReview()">Submit Review</button>
+
+        <p id="reviewMessage"></p>
+    </div>
+</section>
+
+
+<!-- ADMIN -->
+<div id="admin" class="box hidden">
+
+    <h2>👨‍💼 Admin Dashboard</h2>
+
+    <h3>Room Management</h3>
+
+    <table>
+        <tr>
+            <th>Room Type</th>
+            <th>Quantity</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+
+        <tr>
+            <td>Standard</td>
+            <td><input id="standardQty" value="20"></td>
+            <td><input id="standardPrice" value="80"></td>
+            <td><button onclick="updateRoom()">Update</button></td>
+        </tr>
+
+        <tr>
+            <td>Deluxe</td>
+            <td><input value="15"></td>
+            <td><input value="120"></td>
+            <td><button onclick="updateRoom()">Update</button></td>
+        </tr>
+
+        <tr>
+            <td>Family</td>
+            <td><input value="10"></td>
+            <td><input value="150"></td>
+            <td><button onclick="updateRoom()">Update</button></td>
+        </tr>
+
+        <tr>
+            <td>Suite</td>
+            <td><input value="5"></td>
+            <td><input value="200"></td>
+            <td><button onclick="updateRoom()">Update</button></td>
+        </tr>
+    </table>
+
+    <h3>Booking Management</h3>
+
+    <p>Booking ID: HB1001</p>
+    <p>Customer: Guest User</p>
+    <p>Status: Confirmed</p>
+
+    <button onclick="alert('Booking Details Updated')">
+        Modify Booking
+    </button>
+
+    <button onclick="alert('Booking Cancelled')">
+        Cancel Booking
+    </button>
+
+    <h3>User Management</h3>
+
+    <p>Total Users: 25</p>
+
+    <button onclick="alert('User Details Viewed')">
+        View Users
+    </button>
+
+    <h3>Manage Website Pages</h3>
+
+    <button onclick="alert('Room Information Updated')">
+        Room Information
+    </button>
+
+    <button onclick="alert('About Us Updated')">
+        About Us
+    </button>
+
+    <button onclick="alert('Contact Information Updated')">
+        Contact Us
+    </button>
+
+    <button onclick="alert('FAQ Updated')">
+        Customer Service FAQ
+    </button>
+
+    <button onclick="alert('Travel Guide Updated')">
+        Travel Guide
+    </button>
+
+    <button onclick="alert('Privacy Policy Updated')">
+        Privacy Policy
+    </button>
+
+</div>
+
+
+<!-- ABOUT -->
+<section id="about">
+    <div class="box">
+        <h2>About Us</h2>
+
+        <p>
+            GrandStay Hotel provides comfortable and affordable
+            accommodation for families, business travelers and tourists.
+            Our goal is to provide excellent service and a memorable stay.
+        </p>
+    </div>
+</section>
+
+
+<!-- FAQ -->
+<section id="faq">
+    <div class="box">
+        <h2>Customer Service FAQ</h2>
+
+        <h3>How can I book a room?</h3>
+        <p>Select your destination, dates and room type, then confirm your booking.</p>
+
+        <h3>Can I cancel my booking?</h3>
+        <p>Yes. You can cancel your booking up to 3 days before arrival.</p>
+
+        <h3>Can I modify my booking?</h3>
+        <p>Yes. You can modify your booking up to 3 days before arrival.</p>
+
+        <h3>How can I contact customer service?</h3>
+        <p>Call +1 123 456 7890 or email support@grandstay.com.</p>
+    </div>
+</section>
+
+
+<!-- TRAVEL GUIDE -->
+<section id="travel">
+    <div class="box">
+        <h2>Local Travel Guide</h2>
+
+        <ul>
+            <li>Airport Transportation</li>
+            <li>Taxi and Cab Services</li>
+            <li>Popular Tourist Places</li>
+            <li>Shopping Centers</li>
+            <li>Local Restaurants</li>
+        </ul>
+
+        <h3>Transportation</h3>
+
+        <p>
+            We provide airport pickup, taxi and local transportation
+            services for our guests.
+        </p>
+    </div>
+</section>
+
+
+<!-- CONTACT -->
+<section id="contact">
+    <div class="box">
+
+        <h2>Contact Us</h2>
+
+        <p>📍 Address: 123 Main Street</p>
+        <p>📞 Phone: +1 123 456 7890</p>
+        <p>📧 Email: support@grandstay.com</p>
+
+        <input placeholder="Your Name">
+        <input placeholder="Your Email">
+
+        <br>
+
+        <textarea placeholder="Your Message"></textarea>
+
+        <br>
+
+        <button onclick="alert('Message Sent Successfully')">
+            Send Message
+        </button>
+
+    </div>
+</section>
+
+
+<!-- PRIVACY -->
+<section id="privacy">
+    <div class="box">
+
+        <h2>Privacy Policy</h2>
+
+        <p>
+            We respect your privacy and protect your personal information.
+            User information is used only for account management,
+            hotel bookings and customer support.
+        </p>
+
+        <p>
+            Payment information is handled securely. We do not share
+            personal information with unauthorized third parties.
+        </p>
+
+    </div>
+</section>
+
+
+<!-- FOOTER -->
+<footer>
+    <h3>🏨 GrandStay Hotel</h3>
+
+    <p>
+        Home | Rooms | About | Contact | FAQ | Travel Guide | Privacy Policy
+    </p>
+
+    <p>© 2026 GrandStay Hotel. All Rights Reserved.</p>
+</footer>
+
+
+<script>
+
+    // Search Rooms
+    function searchRooms() {
+
+        let destination =
+            document.getElementById("destination").value;
+
+        let checkin =
+            document.getElementById("checkin").value;
+
+        let checkout =
+            document.getElementById("checkout").value;
+
+        if (destination == "" ||
+            checkin == "" ||
+            checkout == "") {
+
+            document.getElementById("searchResult")
+            .innerHTML =
+            "Please enter destination and dates.";
+
+        } else {
+
+            document.getElementById("searchResult")
+            .innerHTML =
+            "Rooms available in " + destination +
+            " for your selected dates.";
+        }
+    }
+
+
+    // Show Login / Register / Admin
+    function showBox(id) {
+
+        document.getElementById(id)
+        .classList.toggle("hidden");
+
+        document.getElementById(id)
+        .scrollIntoView();
+    }
+
+
+    // Registration
+    function register() {
+
+        let name =
+            document.getElementById("regName").value;
+
+        if (name == "") {
+
+            document.getElementById("registerMessage")
+            .innerHTML =
+            "Please enter your name.";
+
+        } else {
+
+            document.getElementById("registerMessage")
+            .innerHTML =
+            "Registration Successful!";
+        }
+    }
+
+
+    // Login
+    function login() {
+
+        let email =
+            document.getElementById("loginEmail").value;
+
+        let password =
+            document.getElementById("loginPassword").value;
+
+        if (email != "" && password != "") {
+
+            document.getElementById("loginMessage")
+            .innerHTML =
+            "Login Successful!";
+
+        } else {
+
+            document.getElementById("loginMessage")
+            .innerHTML =
+            "Enter email and password.";
+        }
+    }
+
+
+    // Book Room
+    function bookRoom(room, price) {
+
+        document.getElementById("roomType")
+        .value = room;
+
+        document.getElementById("booking")
+        .scrollIntoView();
+
+        alert(room + " selected. Please complete booking.");
+    }
+
+
+    // Confirm Booking
+    function confirmBooking() {
+
+        let name =
+            document.getElementById("customerName").value;
+
+        let email =
+            document.getElementById("customerEmail").value;
+
+        if (name == "" || email == "") {
+
+            document.getElementById("bookingMessage")
+            .innerHTML =
+            "Please enter your details.";
+
+        } else {
+
+            document.getElementById("bookingMessage")
+            .innerHTML =
+            "Booking Confirmed! Booking ID: HB1001";
+        }
+    }
+
+
+    // Payment
+    function payment() {
+
+        document.getElementById("paymentMessage")
+        .innerHTML =
+        "Payment Successful! Booking Confirmed.";
+    }
+
+
+    // Modify Booking
+    function modifyBooking() {
+
+        alert(
+            "Booking can be modified up to 3 days before arrival."
+        );
+    }
+
+
+    // Cancel Booking
+    function cancelBooking() {
+
+        let confirmCancel =
+            confirm("Do you want to cancel this booking?");
+
+        if (confirmCancel) {
+
+            alert("Booking Cancelled Successfully.");
+
+        }
+    }
+
+
+    // Edit Profile
+    function editProfile() {
+
+        let name =
+            prompt("Enter your new name:");
+
+        if (name != null && name != "") {
+
+            document.getElementById("profileName")
+            .innerHTML = name;
+        }
+    }
+
+
+    // Review
+    function submitReview() {
+
+        let review =
+            document.getElementById("reviewText").value;
+
+        if (review == "") {
+
+            document.getElementById("reviewMessage")
+            .innerHTML =
+            "Please write your review.";
+
+        } else {
+
+            document.getElementById("reviewMessage")
+            .innerHTML =
+            "Thank you! Your review has been submitted.";
+        }
+    }
+
+
+    // Admin Room Update
+    function updateRoom() {
+
+        alert(
+            "Room quantity and price updated successfully."
+        );
+    }
+
+</script>
+
+</body>
+</html>

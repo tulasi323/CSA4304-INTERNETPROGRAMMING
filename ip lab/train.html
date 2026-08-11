@@ -1,0 +1,1080 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Online Train Reservation System</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f4f6f8;
+            color: #333;
+        }
+
+        header {
+            background: #1b4d3e;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        nav {
+            background: #12372a;
+            padding: 12px;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav a, nav button {
+            color: white;
+            background: none;
+            border: none;
+            margin: 7px;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        nav a:hover, nav button:hover {
+            color: #ffd166;
+        }
+
+        section {
+            padding: 40px 8%;
+        }
+
+        .hero {
+            background: linear-gradient(#0008, #0008),
+            url("https://images.unsplash.com/photo-1474487548417-781cb71495f3")
+            center/cover;
+            color: white;
+            text-align: center;
+            padding: 90px 20px;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+        }
+
+        .box {
+            background: white;
+            padding: 25px;
+            margin: 20px auto;
+            max-width: 1000px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #0002;
+        }
+
+        input, select {
+            padding: 11px;
+            margin: 6px;
+            width: 220px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+
+        button {
+            background: #e67e22;
+            color: white;
+            border: none;
+            padding: 11px 18px;
+            margin: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #d35400;
+        }
+
+        .cards {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            width: 280px;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px #0002;
+        }
+
+        .card h3 {
+            color: #1b4d3e;
+        }
+
+        .seat {
+            display: inline-block;
+            padding: 12px;
+            margin: 5px;
+            background: #2ecc71;
+            color: white;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .seat.selected {
+            background: #e74c3c;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1b4d3e;
+            color: white;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .message {
+            color: green;
+            font-weight: bold;
+        }
+
+        .ticket {
+            border: 2px dashed #1b4d3e;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        footer {
+            background: #12372a;
+            color: white;
+            text-align: center;
+            padding: 25px;
+        }
+
+        @media(max-width:700px) {
+
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            input, select {
+                width: 90%;
+            }
+
+            .card {
+                width: 90%;
+            }
+
+            nav a, nav button {
+                display: inline-block;
+            }
+
+            table {
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<header>
+    <h1>🚆 RailConnect</h1>
+    <p>Online Train Reservation System</p>
+</header>
+
+
+<!-- NAVIGATION -->
+<nav>
+    <a href="#home">Home</a>
+    <a href="#trains">Trains</a>
+    <a href="#booking">Reservation</a>
+    <a href="#pnr">PNR Status</a>
+    <a href="#history">My Bookings</a>
+    <a href="#login">Login</a>
+
+    <button onclick="show('register')">
+        Register
+    </button>
+
+    <button onclick="show('admin')">
+        Admin
+    </button>
+</nav>
+
+
+<!-- HOME / SEARCH -->
+<section id="home" class="hero">
+
+    <h1>Book Your Train Ticket</h1>
+
+    <p>Search trains and reserve your journey easily.</p>
+
+    <div class="box">
+
+        <input id="origin"
+               placeholder="Origin Station">
+
+        <input id="destination"
+               placeholder="Destination Station">
+
+        <input id="journeyDate"
+               type="date">
+
+        <select id="journeyTime">
+
+            <option>Any Time</option>
+            <option>Morning</option>
+            <option>Afternoon</option>
+            <option>Evening</option>
+            <option>Night</option>
+
+        </select>
+
+        <button onclick="searchTrain()">
+            Search Trains
+        </button>
+
+        <p id="searchMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- AVAILABLE TRAINS -->
+<section id="trains">
+
+    <h2>🚆 Available Trains</h2>
+
+    <div class="cards">
+
+        <div class="card">
+
+            <h3>Chennai Express</h3>
+
+            <p>Chennai → Bangalore</p>
+
+            <p>Departure: 08:00 AM</p>
+
+            <p>Arrival: 02:00 PM</p>
+
+            <p>Available Seats: 35</p>
+
+            <p>Classes: SL | 3A | 2A</p>
+
+            <h3>$25</h3>
+
+            <button onclick="selectTrain('Chennai Express')">
+                Reserve
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Southern Express</h3>
+
+            <p>Chennai → Hyderabad</p>
+
+            <p>Departure: 07:00 PM</p>
+
+            <p>Arrival: 08:00 AM</p>
+
+            <p>Available Seats: 20</p>
+
+            <p>Classes: SL | 3A | 2A</p>
+
+            <h3>$35</h3>
+
+            <button onclick="selectTrain('Southern Express')">
+                Reserve
+            </button>
+
+        </div>
+
+
+        <div class="card">
+
+            <h3>Coastal Express</h3>
+
+            <p>Chennai → Coimbatore</p>
+
+            <p>Departure: 06:00 AM</p>
+
+            <p>Arrival: 12:00 PM</p>
+
+            <p>Available Seats: 40</p>
+
+            <p>Classes: SL | 3A</p>
+
+            <h3>$20</h3>
+
+            <button onclick="selectTrain('Coastal Express')">
+                Reserve
+            </button>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- LOGIN -->
+<section id="login">
+
+    <div class="box">
+
+        <h2>🔐 Passenger Login</h2>
+
+        <input id="loginEmail"
+               type="email"
+               placeholder="Email">
+
+        <input id="loginPassword"
+               type="password"
+               placeholder="Password">
+
+        <br>
+
+        <button onclick="login()">
+            Login
+        </button>
+
+        <button onclick="forgotPassword()">
+            Forgot Password
+        </button>
+
+        <button onclick="changePassword()">
+            Change Password
+        </button>
+
+        <p id="loginMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- REGISTRATION -->
+<div id="register" class="box hidden">
+
+    <h2>👤 Passenger Registration</h2>
+
+    <input id="regName"
+           placeholder="Full Name">
+
+    <input id="regEmail"
+           type="email"
+           placeholder="Email">
+
+    <input id="regPhone"
+           placeholder="Phone">
+
+    <input id="regPassword"
+           type="password"
+           placeholder="Password">
+
+    <br>
+
+    <button onclick="register()">
+        Register
+    </button>
+
+    <p id="registerMessage"></p>
+
+</div>
+
+
+<!-- RESERVATION -->
+<section id="booking">
+
+    <div class="box">
+
+        <h2>🎫 Train Reservation</h2>
+
+        <p>
+            Selected Train:
+            <b id="selectedTrain">
+                No Train Selected
+            </b>
+        </p>
+
+        <h3>Journey Details</h3>
+
+        <input id="bookOrigin"
+               placeholder="Origin Station">
+
+        <input id="bookDestination"
+               placeholder="Destination Station">
+
+        <input id="bookDate"
+               type="date">
+
+        <select id="classType">
+
+            <option>Sleeper (SL)</option>
+            <option>AC 3 Tier (3A)</option>
+            <option>AC 2 Tier (2A)</option>
+            <option>First AC (1A)</option>
+
+        </select>
+
+
+        <h3>Select Seat</h3>
+
+        <div>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">1</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">2</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">3</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">4</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">5</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">6</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">7</span>
+
+            <span class="seat"
+                  onclick="selectSeat(this)">8</span>
+
+        </div>
+
+
+        <h3>Passenger Details</h3>
+
+        <input id="passengerName"
+               placeholder="Passenger Name">
+
+        <input id="passengerAge"
+               type="number"
+               placeholder="Age">
+
+        <select id="passengerGender">
+
+            <option>Male</option>
+            <option>Female</option>
+            <option>Other</option>
+
+        </select>
+
+
+        <br>
+
+        <button onclick="reserveTicket()">
+            Continue to Payment
+        </button>
+
+        <p id="bookingMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- PAYMENT -->
+<section id="payment">
+
+    <div class="box">
+
+        <h2>💳 Payment</h2>
+
+        <select id="paymentMode">
+
+            <option>Online Payment</option>
+            <option>Offline Payment</option>
+
+        </select>
+
+        <input placeholder="Payment Reference">
+
+        <button onclick="makePayment()">
+            Pay Ticket Fare
+        </button>
+
+        <p id="paymentMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- TICKET -->
+<section id="ticket">
+
+    <div class="box ticket">
+
+        <h2>🎟️ Train Ticket</h2>
+
+        <p>
+            PNR Number:
+            <b id="pnrNumber">Not Generated</b>
+        </p>
+
+        <p>
+            Train:
+            <span id="ticketTrain">-</span>
+        </p>
+
+        <p>
+            Passenger:
+            <span id="ticketPassenger">-</span>
+        </p>
+
+        <p>
+            Class:
+            <span id="ticketClass">-</span>
+        </p>
+
+        <p>
+            Status:
+            <b>Confirmed</b>
+        </p>
+
+        <button onclick="window.print()">
+            🖨️ Print Ticket
+        </button>
+
+    </div>
+
+</section>
+
+
+<!-- PNR STATUS -->
+<section id="pnr">
+
+    <div class="box">
+
+        <h2>🔎 Check PNR Status</h2>
+
+        <input id="pnrInput"
+               placeholder="Enter PNR Number">
+
+        <button onclick="checkPNR()">
+            Check Status
+        </button>
+
+        <p id="pnrMessage"></p>
+
+    </div>
+
+</section>
+
+
+<!-- BOOKING HISTORY -->
+<section id="history">
+
+    <div class="box">
+
+        <h2>📋 My Booking History</h2>
+
+        <table>
+
+            <tr>
+
+                <th>PNR</th>
+
+                <th>Train</th>
+
+                <th>Date</th>
+
+                <th>Class</th>
+
+                <th>Status</th>
+
+                <th>Action</th>
+
+            </tr>
+
+            <tr>
+
+                <td>PNR123456</td>
+
+                <td>Chennai Express</td>
+
+                <td>25-07-2026</td>
+
+                <td>3A</td>
+
+                <td>Confirmed</td>
+
+                <td>
+
+                    <button onclick="cancelTicket()">
+                        Cancel
+                    </button>
+
+                </td>
+
+            </tr>
+
+        </table>
+
+    </div>
+
+</section>
+
+
+<!-- ADMIN -->
+<div id="admin" class="box hidden">
+
+    <h2>👨‍💼 Railway Admin Panel</h2>
+
+
+    <h3>Train Management</h3>
+
+    <input placeholder="Train Name">
+
+    <input placeholder="Train Number">
+
+    <input placeholder="Origin">
+
+    <input placeholder="Destination">
+
+    <input placeholder="Available Seats">
+
+    <button onclick="updateTrain()">
+        Add / Update Train
+    </button>
+
+
+    <h3>Fare Management</h3>
+
+    <select>
+
+        <option>Sleeper</option>
+
+        <option>AC 3 Tier</option>
+
+        <option>AC 2 Tier</option>
+
+        <option>First AC</option>
+
+    </select>
+
+    <input placeholder="Fare Amount">
+
+    <button onclick="updateFare()">
+        Update Fare
+    </button>
+
+
+    <h3>Seat Availability</h3>
+
+    <p>
+        Chennai Express:
+        35 Seats Available
+    </p>
+
+    <button onclick="alert('Seat Availability Updated')">
+        Update Seats
+    </button>
+
+
+    <h3>PNR and Payment Management</h3>
+
+    <p>
+        Total Bookings: 100
+    </p>
+
+    <p>
+        Total Payments: 90
+    </p>
+
+    <button onclick="alert('Payment Details Sent to Admin')">
+        View Payment Details
+    </button>
+
+
+    <h3>User Management</h3>
+
+    <p>
+        Registered Users: 50
+    </p>
+
+    <button onclick="alert('User List Displayed')">
+        View Users
+    </button>
+
+
+    <h3>Refund Management</h3>
+
+    <input id="ticketFare"
+           type="number"
+           placeholder="Ticket Fare">
+
+    <input id="refundPercent"
+           type="number"
+           placeholder="Refund Percentage">
+
+    <button onclick="calculateRefund()">
+        Calculate Refund
+    </button>
+
+    <p id="refundMessage"></p>
+
+
+    <h3>System Reports</h3>
+
+    <button onclick="generateReport()">
+        Generate Report
+    </button>
+
+    <p id="reportMessage"></p>
+
+</div>
+
+
+<!-- FOOTER -->
+<footer>
+
+    <h3>🚆 RailConnect</h3>
+
+    <p>
+        Home | Trains | Reservation |
+        PNR Status | My Bookings
+    </p>
+
+    <p>
+        © 2026 RailConnect Online Train Reservation System
+    </p>
+
+</footer>
+
+
+<script>
+
+    // Search Train
+    function searchTrain() {
+
+        let origin =
+        document.getElementById("origin").value;
+
+        let destination =
+        document.getElementById("destination").value;
+
+        let date =
+        document.getElementById("journeyDate").value;
+
+        if(origin == "" ||
+           destination == "" ||
+           date == "") {
+
+            document.getElementById("searchMessage")
+            .innerHTML =
+            "Please enter journey details.";
+
+        } else {
+
+            document.getElementById("searchMessage")
+            .innerHTML =
+            "Available trains found from " +
+            origin + " to " + destination;
+
+        }
+
+    }
+
+
+    // Select Train
+    function selectTrain(train) {
+
+        document.getElementById("selectedTrain")
+        .innerHTML = train;
+
+        document.getElementById("ticketTrain")
+        .innerHTML = train;
+
+        document.getElementById("booking")
+        .scrollIntoView();
+
+    }
+
+
+    // Select Seat
+    function selectSeat(seat) {
+
+        document.querySelectorAll(".seat")
+        .forEach(x =>
+            x.classList.remove("selected")
+        );
+
+        seat.classList.add("selected");
+
+    }
+
+
+    // Reserve Ticket
+    function reserveTicket() {
+
+        let name =
+        document.getElementById("passengerName").value;
+
+        let age =
+        document.getElementById("passengerAge").value;
+
+        if(name == "" || age == "") {
+
+            document.getElementById("bookingMessage")
+            .innerHTML =
+            "Please enter passenger details.";
+
+        } else {
+
+            document.getElementById("ticketPassenger")
+            .innerHTML = name;
+
+            document.getElementById("ticketClass")
+            .innerHTML =
+            document.getElementById("classType").value;
+
+            document.getElementById("bookingMessage")
+            .innerHTML =
+            "Passenger details saved. Continue to payment.";
+
+            document.getElementById("payment")
+            .scrollIntoView();
+
+        }
+
+    }
+
+
+    // Payment
+    function makePayment() {
+
+        let pnr =
+        "PNR" +
+        Math.floor(100000 + Math.random() * 900000);
+
+        document.getElementById("pnrNumber")
+        .innerHTML = pnr;
+
+        document.getElementById("paymentMessage")
+        .innerHTML =
+        "Payment Successful! Ticket Confirmed.";
+
+        document.getElementById("ticket")
+        .scrollIntoView();
+
+    }
+
+
+    // Login
+    function login() {
+
+        let email =
+        document.getElementById("loginEmail").value;
+
+        let password =
+        document.getElementById("loginPassword").value;
+
+        if(email != "" && password != "") {
+
+            document.getElementById("loginMessage")
+            .innerHTML =
+            "Login Successful!";
+
+        } else {
+
+            document.getElementById("loginMessage")
+            .innerHTML =
+            "Enter valid login details.";
+
+        }
+
+    }
+
+
+    // Registration
+    function register() {
+
+        let name =
+        document.getElementById("regName").value;
+
+        if(name == "") {
+
+            document.getElementById("registerMessage")
+            .innerHTML =
+            "Enter your name.";
+
+        } else {
+
+            document.getElementById("registerMessage")
+            .innerHTML =
+            "Registration Successful!";
+
+        }
+
+    }
+
+
+    // Forgot Password
+    function forgotPassword() {
+
+        let email =
+        prompt("Enter your registered email:");
+
+        if(email) {
+
+            alert(
+            "Password reset link sent to " + email
+            );
+
+        }
+
+    }
+
+
+    // Change Password
+    function changePassword() {
+
+        let password =
+        prompt("Enter new password:");
+
+        if(password) {
+
+            alert(
+            "Password Changed Successfully"
+            );
+
+        }
+
+    }
+
+
+    // PNR Status
+    function checkPNR() {
+
+        let pnr =
+        document.getElementById("pnrInput").value;
+
+        if(pnr == "") {
+
+            document.getElementById("pnrMessage")
+            .innerHTML =
+            "Enter PNR Number.";
+
+        } else {
+
+            document.getElementById("pnrMessage")
+            .innerHTML =
+            "PNR Status: Confirmed";
+
+        }
+
+    }
+
+
+    // Cancel Ticket
+    function cancelTicket() {
+
+        let pnr =
+        prompt("Enter PNR Number:");
+
+        if(pnr) {
+
+            alert(
+            "Ticket cancelled successfully. " +
+            "Refund will be processed according to refund rules."
+            );
+
+        }
+
+    }
+
+
+    // Admin Train Update
+    function updateTrain() {
+
+        alert(
+        "Train information added / updated successfully."
+        );
+
+    }
+
+
+    // Admin Fare Update
+    function updateFare() {
+
+        alert(
+        "Train fare updated successfully."
+        );
+
+    }
+
+
+    // Refund Calculation
+    function calculateRefund() {
+
+        let fare =
+        Number(document.getElementById("ticketFare").value);
+
+        let percentage =
+        Number(document.getElementById("refundPercent").value);
+
+        let refund =
+        fare * percentage / 100;
+
+        document.getElementById("refundMessage")
+        .innerHTML =
+        "Refund Amount: $" + refund;
+
+    }
+
+
+    // Generate Report
+    function generateReport() {
+
+        document.getElementById("reportMessage")
+        .innerHTML =
+        "Report Generated: " +
+        "Total Tickets: 100 | Confirmed: 80 | RAC: 10 | Waiting: 10";
+
+    }
+
+
+    // Show Register / Admin
+    function show(id) {
+
+        document.getElementById(id)
+        .classList.toggle("hidden");
+
+        document.getElementById(id)
+        .scrollIntoView();
+
+    }
+
+</script>
+
+</body>
+</html>

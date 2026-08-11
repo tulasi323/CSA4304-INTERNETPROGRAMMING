@@ -1,0 +1,249 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>Sweet Cake Shop</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+body{font-family:Arial;margin:0;background:#fff0f5}
+header{background:#d63384;color:white;text-align:center;padding:15px}
+nav button,button{padding:8px;margin:4px;border:0;background:#d63384;color:white;border-radius:5px}
+section{display:none;padding:25px;max-width:900px;margin:auto}
+#home{display:block;text-align:center}
+.box,.cake{background:white;padding:20px;margin:15px 0;border-radius:10px}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:15px}
+input,select,textarea{width:100%;padding:9px;margin:6px 0}
+.cake img{width:100%;height:130px;object-fit:cover}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>🎂 Sweet Cake Shop</h1>
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('login')">Login</button>
+<button onclick="show('search')">Cakes</button>
+<button onclick="show('cart')">Cart</button>
+<button onclick="show('orders')">Orders</button>
+<button onclick="show('status')">Status</button>
+<button onclick="show('admin')">Admin</button>
+</nav>
+</header>
+
+<!-- HOME -->
+<section id="home">
+<h1>Delicious Cakes 🍰</h1>
+<p>Birthday | Wedding | Anniversary | Chocolate</p>
+
+<div class="box">
+<h2>Search Cake</h2>
+<select><option>Category</option><option>Birthday</option><option>Wedding</option></select>
+<select><option>Flavor</option><option>Chocolate</option><option>Vanilla</option></select>
+<select><option>Price Range</option><option>Below ₹500</option><option>₹500-₹1000</option></select>
+<button onclick="show('search')">Search</button>
+</div>
+</section>
+
+<!-- LOGIN -->
+<section id="login">
+<div class="box">
+<h2>👤 Login</h2>
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+<button onclick="alert('Login Successful')">Login</button>
+<button onclick="show('register')">Register</button>
+<button onclick="alert('OTP Sent')">Forgot Password</button>
+</div>
+</section>
+
+<!-- REGISTER -->
+<section id="register">
+<div class="box">
+<h2>📝 Register</h2>
+<input placeholder="Name">
+<input placeholder="Email">
+<input placeholder="Phone">
+<input type="password" placeholder="Password">
+<button onclick="alert('Registered Successfully')">Register</button>
+</div>
+</section>
+
+<!-- CAKES -->
+<section id="search">
+<h2>🍰 Cake List</h2>
+
+<div class="grid">
+
+<div class="cake">
+<img src="https://images.unsplash.com/photo-1578985545062-69928b1d9587">
+<h3>Chocolate Cake</h3>
+<p>₹650</p>
+<button onclick="details('Chocolate Cake',650)">View</button>
+</div>
+
+<div class="cake">
+<img src="https://images.unsplash.com/photo-1464349095431-e9a21285b5f3">
+<h3>Strawberry Cake</h3>
+<p>₹750</p>
+<button onclick="details('Strawberry Cake',750)">View</button>
+</div>
+
+<div class="cake">
+<img src="https://images.unsplash.com/photo-1565958011703-44f9829ba187">
+<h3>Birthday Cake</h3>
+<p>₹850</p>
+<button onclick="details('Birthday Cake',850)">View</button>
+</div>
+
+</div>
+</section>
+
+<!-- DETAILS -->
+<section id="details">
+<div class="box">
+<h2 id="cake"></h2>
+<p>Fresh and delicious cake for every occasion.</p>
+
+<select id="size">
+<option>500g</option>
+<option>1 Kg</option>
+<option>2 Kg</option>
+</select>
+
+<input id="msg" placeholder="Cake Message">
+
+<button onclick="add()">🛒 Add to Cart</button>
+</div>
+</section>
+
+<!-- CART -->
+<section id="cart">
+<div class="box">
+<h2>🛒 Cart</h2>
+<p id="item">No item</p>
+<p>Price: ₹<span id="price">0</span></p>
+
+<button onclick="show('shipping')">Place Order</button>
+</div>
+</section>
+
+<!-- SHIPPING -->
+<section id="shipping">
+<div class="box">
+<h2>📦 Shipping Address</h2>
+<input placeholder="Address">
+<input placeholder="City">
+<input placeholder="PIN Code">
+<input placeholder="Phone">
+
+<button onclick="show('payment')">Save Address</button>
+<button onclick="alert('Address Updated')">Update</button>
+</div>
+</section>
+
+<!-- PAYMENT -->
+<section id="payment">
+<div class="box">
+<h2>💳 Payment</h2>
+<select>
+<option>UPI</option>
+<option>Card</option>
+<option>Net Banking</option>
+</select>
+<input placeholder="Payment ID">
+<button onclick="order()">Pay & Order</button>
+</div>
+</section>
+
+<!-- ORDERS -->
+<section id="orders">
+<div class="box">
+<h2>📋 My Orders</h2>
+<p>Order: CAKE101 | Chocolate Cake</p>
+<p>₹650 | <b>Confirmed</b></p>
+</div>
+</section>
+
+<!-- STATUS -->
+<section id="status">
+<div class="box">
+<h2>🚚 Shipping Status</h2>
+<input id="oid" placeholder="Order ID">
+<button onclick="alert('Confirmed → Prepared → Shipped → Delivered')">
+Track Order
+</button>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin">
+<h2>🛠 Admin Panel</h2>
+
+<div class="box">
+<h3>Manage Products</h3>
+<input placeholder="Cake Name">
+<input placeholder="Price">
+<input placeholder="Image URL">
+<textarea placeholder="Description"></textarea>
+<button onclick="alert('Cake Added')">Post Cake</button>
+</div>
+
+<div class="box">
+<h3>Manage Orders</h3>
+<p>CAKE101 - Chocolate Cake</p>
+<select onchange="alert('Order Status Updated')">
+<option>Confirmed</option>
+<option>Preparing</option>
+<option>Shipped</option>
+<option>Delivered</option>
+</select>
+</div>
+
+<div class="box">
+<h3>Shipping Locations</h3>
+<p>Chennai | Bangalore | Hyderabad | Mumbai</p>
+<button onclick="alert('Admin Logged Out')">Logout</button>
+</div>
+
+</section>
+
+<footer>
+<p>🎂 Sweet Cake Shop | Internet Programming Lab</p>
+</footer>
+
+<script>
+
+let name="",cost=0;
+
+function show(id){
+document.querySelectorAll("section").forEach(x=>x.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function details(n,p){
+name=n;cost=p;
+document.getElementById("cake").innerText=n;
+show("details");
+}
+
+function add(){
+document.getElementById("item").innerText=name+
+" | "+document.getElementById("size").value;
+document.getElementById("price").innerText=cost;
+show("cart");
+}
+
+function order(){
+alert("Order Placed Successfully!");
+show("orders");
+}
+
+</script>
+
+</body>
+</html>
+```

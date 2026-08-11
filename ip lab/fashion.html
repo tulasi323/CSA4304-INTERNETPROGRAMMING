@@ -1,0 +1,469 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>StyleHub Fashion Store</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+
+<style>
+body{font-family:Arial;margin:0;background:#fff5f7}
+header{background:#d6336c;color:white;text-align:center;padding:15px}
+nav button,button{padding:8px;margin:4px;background:#d6336c;
+color:white;border:0;border-radius:5px;cursor:pointer}
+
+section{display:none;padding:20px;max-width:900px;margin:auto}
+#home{display:block;padding:0;max-width:none}
+
+.hero{
+height:400px;
+background:linear-gradient(#0005,#0005),
+url("https://images.unsplash.com/photo-1445205170230-053b83016050")
+center/cover;
+color:white;
+text-align:center;
+padding-top:100px
+}
+
+.hero h1{font-size:45px}
+.hero p{font-size:20px}
+
+.box,.product{
+background:white;
+padding:18px;
+margin:15px 0;
+border-radius:10px;
+box-shadow:0 2px 8px #ddd
+}
+
+.grid{
+display:grid;
+grid-template-columns:repeat(3,1fr);
+gap:15px
+}
+
+.product img{
+width:100%;
+height:150px;
+object-fit:cover
+}
+
+input,select,textarea{
+width:100%;
+padding:9px;
+margin:6px 0
+}
+
+@media(max-width:600px){
+.grid{grid-template-columns:1fr}
+.hero h1{font-size:30px}
+}
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>👗 StyleHub</h1>
+
+<nav>
+<button onclick="show('home')">Home</button>
+<button onclick="show('login')">Login</button>
+<button onclick="show('products')">Fashion</button>
+<button onclick="show('cart')">Cart 🛒</button>
+<button onclick="show('orders')">Orders</button>
+<button onclick="show('admin')">Admin</button>
+</nav>
+</header>
+
+
+<!-- HOME PAGE WITH IMAGE -->
+
+<section id="home">
+
+<div class="hero">
+
+<h1>StyleHub Fashion</h1>
+
+<p>✨ Discover Your Perfect Style ✨</p>
+
+<p>Men • Women • Kids • Footwear • Accessories</p>
+
+<button onclick="show('products')">
+🛍 Shop Now
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h2>🔍 Search Fashion</h2>
+
+<select>
+<option>Select Category</option>
+<option>Men</option>
+<option>Women</option>
+<option>Kids</option>
+<option>Footwear</option>
+<option>Accessories</option>
+</select>
+
+<select>
+<option>Select Subcategory</option>
+<option>Casual Wear</option>
+<option>Formal Wear</option>
+<option>Seasonal Collection</option>
+</select>
+
+<select>
+<option>Price Range</option>
+<option>Below ₹500</option>
+<option>₹500 - ₹1500</option>
+<option>Above ₹1500</option>
+</select>
+
+<button onclick="show('products')">
+Search
+</button>
+
+</div>
+
+
+<div class="grid">
+
+<div class="box">
+<h3>👨 Men Fashion</h3>
+<p>Shirts • Jeans • Formal Wear</p>
+</div>
+
+<div class="box">
+<h3>👩 Women Fashion</h3>
+<p>Dresses • Tops • Sarees</p>
+</div>
+
+<div class="box">
+<h3>👶 Kids Fashion</h3>
+<p>Kids Wear • Shoes</p>
+</div>
+
+</div>
+
+</section>
+
+
+<!-- LOGIN -->
+
+<section id="login">
+
+<div class="box">
+
+<h2>👤 Login</h2>
+
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+
+<button onclick="alert('Login Successful')">
+Login
+</button>
+
+<button onclick="show('register')">
+Register
+</button>
+
+<button onclick="alert('Reset Link Sent')">
+Forgot Password
+</button>
+
+</div>
+
+</section>
+
+
+<!-- REGISTER -->
+
+<section id="register">
+
+<div class="box">
+
+<h2>📝 Register</h2>
+
+<input placeholder="Name">
+<input placeholder="Email">
+<input placeholder="Phone">
+<input type="password" placeholder="Password">
+
+<button onclick="alert('Registered Successfully')">
+Register
+</button>
+
+</div>
+
+</section>
+
+
+<!-- PRODUCTS -->
+
+<section id="products">
+
+<h2>👗 Fashion Collection</h2>
+
+<div class="grid">
+
+<div class="product">
+
+<img src="https://images.unsplash.com/photo-1521572163474-6864f9cf17ab">
+
+<h3>Men T-Shirt</h3>
+<p>Casual Wear</p>
+<b>₹799</b><br>
+
+<button onclick="add('Men T-Shirt',799)">
+Add Cart
+</button>
+
+</div>
+
+
+<div class="product">
+
+<img src="https://images.unsplash.com/photo-1595777457583-95e059d581b8">
+
+<h3>Women Dress</h3>
+<p>Casual Wear</p>
+<b>₹1499</b><br>
+
+<button onclick="add('Women Dress',1499)">
+Add Cart
+</button>
+
+</div>
+
+
+<div class="product">
+
+<img src="https://images.unsplash.com/photo-1542291026-7eec264c27ff">
+
+<h3>Sports Shoes</h3>
+<p>Footwear</p>
+<b>₹2499</b><br>
+
+<button onclick="add('Sports Shoes',2499)">
+Add Cart
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- CART -->
+
+<section id="cart">
+
+<div class="box">
+
+<h2>🛒 Shopping Cart</h2>
+
+<p id="item">No item selected</p>
+
+<p>Quantity:
+<button onclick="change(-1)">−</button>
+<span id="qty">1</span>
+<button onclick="change(1)">+</button>
+</p>
+
+<p>Total: ₹<span id="total">0</span></p>
+
+<button onclick="alert('Item Removed')">
+Remove
+</button>
+
+<button onclick="show('checkout')">
+Checkout
+</button>
+
+</div>
+
+</section>
+
+
+<!-- CHECKOUT -->
+
+<section id="checkout">
+
+<div class="box">
+
+<h2>💳 Checkout</h2>
+
+<input placeholder="Customer Name">
+<input placeholder="Delivery Address">
+<input placeholder="Phone">
+
+<select>
+<option>UPI</option>
+<option>Card</option>
+<option>Net Banking</option>
+</select>
+
+<input placeholder="Discount Code">
+
+<button onclick="order()">
+Place Order
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ORDERS -->
+
+<section id="orders">
+
+<div class="box">
+
+<h2>📦 My Orders</h2>
+
+<p>Order ID: SH101</p>
+<p>Product: Women Dress</p>
+<p>Amount: ₹1499</p>
+
+<p><b>Status:</b>
+Confirmed → Shipped → Delivered
+</p>
+
+<button onclick="alert('Order Tracking Updated')">
+Track Order
+</button>
+
+</div>
+
+<div class="box">
+
+<h3>📜 Order History</h3>
+
+<p>Men T-Shirt - ₹799 - Delivered</p>
+<p>Sports Shoes - ₹2499 - Delivered</p>
+
+</div>
+
+</section>
+
+
+<!-- ADMIN -->
+
+<section id="admin">
+
+<h2>🛠 Admin Panel</h2>
+
+<div class="box">
+
+<h3>➕ Add Product</h3>
+
+<input placeholder="Product Name">
+<input placeholder="Price">
+<input placeholder="Category">
+<input placeholder="Subcategory">
+<input placeholder="Image URL">
+
+<textarea placeholder="Description"></textarea>
+
+<button onclick="alert('Product Added')">
+Add Product
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h3>✏️ Manage Product</h3>
+
+<input placeholder="Product Name">
+<input placeholder="New Price">
+
+<textarea placeholder="New Description"></textarea>
+
+<button onclick="alert('Product Updated')">
+Update
+</button>
+
+<button onclick="alert('Product Removed')">
+Remove
+</button>
+
+</div>
+
+
+<div class="box">
+
+<h3>👥 Customer Details</h3>
+
+<p>Name: Priya</p>
+<p>Email: priya@email.com</p>
+<p>Order: SH101</p>
+
+</div>
+
+
+<div class="box">
+
+<h3>🔥 Flash Sale</h3>
+
+<p>20% OFF Fashion Collection</p>
+
+<button onclick="alert('Discount Updated')">
+Update Discount
+</button>
+
+</div>
+
+<button onclick="alert('Admin Logged Out')">
+Logout
+</button>
+
+</section>
+
+
+<footer style="background:#d6336c;color:white;text-align:center;padding:15px">
+👗 StyleHub | Internet Programming Lab
+</footer>
+
+
+<script>
+
+let item="",price=0,q=1;
+
+function show(id){
+document.querySelectorAll("section")
+.forEach(x=>x.style.display="none");
+document.getElementById(id).style.display="block";
+}
+
+function add(n,p){
+item=n;
+price=p;
+q=1;
+document.getElementById("item").innerText=item;
+document.getElementById("total").innerText=price;
+show("cart");
+}
+
+function change(x){
+q=Math.max(1,q+x);
+document.getElementById("qty").innerText=q;
+document.getElementById("total").innerText=price*q;
+}
+
+function order(){
+alert("Order Placed Successfully!");
+show("orders");
+}
+
+</script>
+
+</body>
+</html>
+```

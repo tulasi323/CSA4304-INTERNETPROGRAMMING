@@ -1,0 +1,200 @@
+```html
+<!DOCTYPE html>
+<html>
+<head>
+<title>MedCare Hospital</title>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<style>
+body{margin:0;font:16px Arial;background:#eef8ff}
+header{background:#087ea4;color:white;text-align:center;padding:12px}
+button{padding:9px;margin:4px;background:#08a0c7;color:white;border:0;border-radius:5px}
+section{display:none;padding:20px;max-width:900px;margin:auto}
+#home{display:block;padding:0;max-width:none}
+.hero{height:350px;background:linear-gradient(#0007,#0007),
+url('https://images.unsplash.com/photo-1586773860418-d37222d8fce3')
+center/cover;color:white;text-align:center;padding-top:100px}
+.box{background:white;padding:18px;margin:15px 0;border-radius:10px}
+input,select,textarea{width:100%;padding:9px;margin:6px 0}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:600px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+
+<body>
+
+<header>
+<h2>🏥 MedCare Hospital</h2>
+<button onclick="show('home')">Home</button>
+<button onclick="show('login')">Login</button>
+<button onclick="show('doctor')">Doctors</button>
+<button onclick="show('book')">Book</button>
+<button onclick="show('my')">My Appointments</button>
+<button onclick="show('history')">History</button>
+<button onclick="show('admin')">Admin</button>
+</header>
+
+<!-- HOME -->
+<section id="home">
+
+<div class="hero">
+<h1>Quality Healthcare For Everyone</h1>
+<p>Find Doctors & Book Appointments Easily</p>
+<button onclick="show('book')">📅 Book Appointment</button>
+<button onclick="show('doctor')">👨‍⚕️ Find Doctor</button>
+</div>
+
+<div class="box">
+<h2>🔍 Search Doctor</h2>
+<select><option>Specialty</option><option>Cardiology</option>
+<option>Dermatology</option><option>Neurology</option></select>
+<select><option>Location</option><option>Chennai</option>
+<option>Bangalore</option></select>
+<input type="date">
+<button onclick="show('doctor')">Search</button>
+</div>
+
+<div class="grid">
+<div class="box"><h3>👨‍⚕️ Expert Doctors</h3>Experienced Specialists</div>
+<div class="box"><h3>📅 Easy Booking</h3>Flexible Date & Time</div>
+<div class="box"><h3>🔒 Secure</h3>Patient Data Protection</div>
+</div>
+
+</section>
+
+<!-- LOGIN -->
+<section id="login">
+<div class="box">
+<h2>👤 Login</h2>
+<input placeholder="Email">
+<input type="password" placeholder="Password">
+<button onclick="alert('Login Successful')">Login</button>
+<button onclick="alert('Registration Successful')">Signup</button>
+<button onclick="alert('Reset Link Sent')">Forgot Password</button>
+</div>
+</section>
+
+<!-- DOCTORS -->
+<section id="doctor">
+<h2>👨‍⚕️ Doctors</h2>
+<div class="grid">
+<div class="box"><h3>Dr. Arun</h3>❤️ Cardiology<br>⭐ 4.8<br>
+<button onclick="show('book')">Book</button></div>
+<div class="box"><h3>Dr. Priya</h3>🧴 Dermatology<br>⭐ 4.7<br>
+<button onclick="show('book')">Book</button></div>
+<div class="box"><h3>Dr. Ravi</h3>🧠 Neurology<br>⭐ 4.9<br>
+<button onclick="show('book')">Book</button></div>
+</div>
+</section>
+
+<!-- BOOK -->
+<section id="book">
+<div class="box">
+<h2>📅 Book Appointment</h2>
+<select><option>Dr. Arun - Cardiology</option>
+<option>Dr. Priya - Dermatology</option>
+<option>Dr. Ravi - Neurology</option></select>
+<input type="date">
+<select><option>10:00 AM</option><option>11:00 AM</option>
+<option>2:00 PM</option><option>4:00 PM</option></select>
+<button onclick="book()">Book Appointment</button>
+</div>
+</section>
+
+<!-- MY APPOINTMENT -->
+<section id="my">
+<div class="box">
+<h2>📋 My Appointment</h2>
+<p>Doctor: Dr. Arun</p>
+<p>Date: 20 Aug 2026 | Time: 10 AM</p>
+<p>Status: <b>Confirmed</b></p>
+<button onclick="show('check')">Check-in</button>
+<button onclick="alert('Rescheduled')">Reschedule</button>
+<button onclick="alert('Cancelled')">Cancel</button>
+</div>
+</section>
+
+<!-- CHECK-IN -->
+<section id="check">
+<div class="box">
+<h2>📝 Check-in</h2>
+<input placeholder="Patient Name">
+<input placeholder="Appointment ID">
+<textarea placeholder="Reason for Visit"></textarea>
+<button onclick="alert('Check-in Submitted')">Submit</button>
+</div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+<div class="box">
+<h2>📜 Past Appointments</h2>
+<p>Dr. Priya - Dermatology - 05 Aug - Completed</p>
+<p>Dr. Ravi - Neurology - 20 Jul - Completed</p>
+<h3>⭐ Review</h3>
+<textarea placeholder="Write review"></textarea>
+<button onclick="alert('Review Submitted')">Submit</button>
+</div>
+</section>
+
+<!-- ADMIN -->
+<section id="admin">
+
+<div class="box">
+<h2>🛠 Admin Dashboard</h2>
+<p>Appointments: 350 | Doctors: 45 | Patients: 2500</p>
+</div>
+
+<div class="box">
+<h3>Manage Appointments</h3>
+<input placeholder="Patient Name">
+<input placeholder="Doctor Name">
+<select><option>Confirmed</option><option>Completed</option>
+<option>Cancelled</option></select>
+<button onclick="alert('Appointment Updated')">Update</button>
+</div>
+
+<div class="box">
+<h3>Manage Doctors</h3>
+<input placeholder="Doctor Name">
+<input placeholder="Specialty">
+<input placeholder="Location">
+<button onclick="alert('Doctor Added')">Add Doctor</button>
+</div>
+
+<div class="box">
+<h3>🏥 Hospital Details</h3>
+<input placeholder="Hospital Name">
+<input placeholder="Location">
+<input placeholder="Phone">
+<button onclick="alert('Hospital Details Updated')">Update</button>
+</div>
+
+<div class="box">
+<h3>⭐ Rating Details</h3>
+<p>Average Rating: ⭐ 4.8 / 5</p>
+<p>Completed Appointments: 280</p>
+<p>Cancelled: 20</p>
+</div>
+
+<button onclick="alert('Admin Logged Out')">Logout</button>
+
+</section>
+
+<footer style="background:#087ea4;color:white;text-align:center;padding:15px">
+🏥 MedCare Hospital | Internet Programming Lab
+</footer>
+
+<script>
+function show(id){
+document.querySelectorAll("section").forEach(x=>x.style.display="none");
+document.getElementById(id).style.display="block";
+}
+function book(){
+alert("Appointment Booked Successfully!\nConfirmation sent by Email/SMS.");
+show("my");
+}
+</script>
+
+</body>
+</html>
+```
